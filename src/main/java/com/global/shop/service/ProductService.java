@@ -61,7 +61,7 @@ public class ProductService {
 
 	public Product createProduct(Product product) {
 		
-		Product product1 = productRepo.findByNameAndDescription(product.getName(),product.getDescription());
+		Product product1 = productRepo.findByNameAndDescription(product.getName(),product.getPrice(),product.getDescription());
 		if(product1 !=null) {
 		    throw new CustomException("this product is already exists");
 		}

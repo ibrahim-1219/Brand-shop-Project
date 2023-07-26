@@ -9,11 +9,13 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,10 +28,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.global.shop.error.CustomException;
 import com.global.shop.entity.Product;
 import com.global.shop.entity.Role;
+import com.global.shop.entity.Cart;
 import com.global.shop.entity.Customer;
 import com.global.shop.projection.ProductDto;
 import com.global.shop.repository.CustomerRepo;
 import com.global.shop.security.AppUserDetail;
+
+import net.bytebuddy.implementation.attribute.AnnotationAppender.Target.OnType;
 
 
 @Service
@@ -40,6 +45,9 @@ public class CustomerService implements UserDetailsService{
 	
 	@Autowired
 	private RoleService roleService;
+	
+	@Autowired
+	private CartService cartService ;
 		
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -91,14 +99,13 @@ public class CustomerService implements UserDetailsService{
 	
 		return productList;
 	}
-	
-	
-	
 
 	public List<Customer> insertAll(List<Customer> customers) {
 
 		return customerRepo.saveAll(customers);
 	}
+	
+	@Transactional
 	 public Customer insert(Customer customer)
 	   {
 	       if(!customerRepo.findByEmail(customer.getEmail()).isEmpty())	 
@@ -110,21 +117,19 @@ public class CustomerService implements UserDetailsService{
 		   customerNew.setEmail(customer.getEmail());
 		   customerNew.setPassword(passwordEncoder.encode(customer.getPassword()));
 		   customerNew.setActive(true);
-		   customerNew.setCreatedBy("test user");
 		   customerNew.setCreatedDateTime(LocalDateTime.now());
 			 // Get the customer role entity by name
 		    Role userRole = roleService.findRoleByName("USER_ROLE");
-
 		    // Make sure the role exists
 		    if (userRole == null) {
 		        throw new RuntimeException("USER_ROLE not found in database!");
 		    }
-
 		    // Add the role to the customer's set of roles
 		    Set<Role> roles = new HashSet<>();
 		    roles.add(userRole);
 		    customerNew.setRoles(roles);
-		
+		    Cart cart = cartService.createCart();
+		    customerNew.setCart(cart);  
 		   
 		   return customerRepo.save(customerNew);
 	   }
@@ -140,18 +145,28 @@ public class CustomerService implements UserDetailsService{
 			
 			return new AppUserDetail(customer.get());
 	}
-	public Customer updateEmail(Customer customer) {
-		Customer customerToUpdate = customerRepo.findById(customer.getId()).orElseThrow(() -> new CustomException("Customer is not found"));
-		customerToUpdate.setEmail(customer.getEmail());
-	    Customer updatedUser = customerRepo.save(customerToUpdate);
-	    return updatedUser;
+	public Customer updateEmail(long id , String email) {
+		Customer customerToUpdate = customerRepo.findById(id).orElseThrow(() -> new CustomException("Customer is not found"));
+		Optional<Customer> customer = customerRepo.findByEmail(email);
+		if(!customer.isEmpty() && customer.get().getId()!=id)
+		{
+			 throw new CustomException("This Email is already found ");
+		}
+		customerToUpdate.setEmail(email);
+	    Customer updatedCustomer = customerRepo.save(customerToUpdate);
+	    return updatedCustomer;
 	    }
 	
+	
+	@Transactional
 	public int deleteById (long id) {
 		
 		Customer customerToDelete = customerRepo.findById(id).orElseThrow(() -> new CustomException("Customer is not found"));
+		customerRepo.deleteById(id);
+		long cartId =customerToDelete.getCart().getId();
+		cartService.deleteCart(cartId);
 		
-		return customerRepo.deleteById(customerToDelete.getId());
+		return 1;
 		
 	}
 	public int countAllCustomers() {

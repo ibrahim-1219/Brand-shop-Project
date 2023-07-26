@@ -25,7 +25,7 @@ public class Role {
 	@GeneratedValue(strategy =GenerationType.IDENTITY)
 	private long id;
 	
-	@NotNull
+	@NotNull(message = "name is mandatory")
 	private String name;
 
 }

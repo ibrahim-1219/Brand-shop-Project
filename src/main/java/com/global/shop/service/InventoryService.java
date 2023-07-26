@@ -24,17 +24,12 @@ public class InventoryService {
 	private InventoryRepo inventoryRepo;
 	
 	@Autowired
-	private ProductRepo productRepo;
+	private ProductService productService;
 
 	public Inventory insert(Inventory inventory) {
 		
 	    long id = inventory.getProduct().getId();
-		Optional<Product> product = productRepo.findById(inventory.getProduct().getId());
-		
-		if(product.isEmpty())
-		{
-			throw new CustomException("this product is not found");
-		}
+		Product product = productService.findById(inventory.getProduct().getId());
 		return inventoryRepo.save(inventory);
 	}
 
@@ -73,7 +68,21 @@ public class InventoryService {
 	
 		return inventoryRepo.findAll();
 	}
-	
+
+	public int getQuantity(long productId) {
+		
+		Product product = productService.findById(productId);
+		
+		return inventoryRepo.getQuantity(productId);
+	}
+
+	public void updateInventory(Long productId , int quantity) {
+		
+		inventoryRepo.updateInventoryQuantity(productId,quantity);
+		
+	}
+
+
 
 
 }

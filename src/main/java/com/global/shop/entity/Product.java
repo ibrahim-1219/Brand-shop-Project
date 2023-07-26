@@ -40,13 +40,13 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@NotNull(message = "name")
+	@NotNull(message = "name is mandatory")
 	private String name;
 	
-	@NotNull(message = "price")
-	private double price;
+	@NotNull(message = "price is mandatory")
+	private Double price;
 	
-	@NotNull(message = "description")
+	@NotNull(message = "description is mandatory")
 	private String description;
 	
 	

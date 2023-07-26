@@ -49,14 +49,15 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@NotNull(message = "name")
+	@NotNull(message = "name is mandatory")
 	private String name;
 	
 	@Email
-	@NotNull
+	@NotNull(message = "email is mandatory")
+	@Column(unique = true)
 	private String email;
 	
-	@NotNull
+	@NotNull(message ="password is mandatory")
 	private String password;
 	
 	@Column(name = "active")

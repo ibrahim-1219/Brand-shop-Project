@@ -1,5 +1,8 @@
 package com.global.shop.controller;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -29,7 +32,7 @@ public class ProductController {
 	}
 	
 	@GetMapping("name/{name}")
-	public ResponseEntity<?> findByName(@PathVariable String name) {
+	public ResponseEntity<?> findByName(@PathVariable @NotBlank String name) {
 		return ResponseEntity.ok(new CustomResponse(productService.findByName(name)));
 	}
 	
@@ -50,13 +53,13 @@ public class ProductController {
 	}
 	
 	@PostMapping("/create")
-	public ResponseEntity<?> createProduct(@RequestBody Product product){
+	public ResponseEntity<?> createProduct(@RequestBody @Valid Product product){
 		
 		return ResponseEntity.ok(new CustomResponse(productService.createProduct(product)));
 	}
 	
 	@PostMapping("/update")
-	public ResponseEntity<?> updateProduct(@RequestBody Product product){
+	public ResponseEntity<?> updateProduct(@RequestBody @Valid Product product){
 		
 		return ResponseEntity.ok(new CustomResponse(productService.updateProduct(product)));
 	}

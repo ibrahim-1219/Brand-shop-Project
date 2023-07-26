@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -46,6 +47,7 @@ public class Inventory {
 	@JsonIgnoreProperties("inventory")
 	private Product product;
 
+	@NotNull(message = "quantity is mandatory")
 	private int quantity;
     
 	@CreatedDate

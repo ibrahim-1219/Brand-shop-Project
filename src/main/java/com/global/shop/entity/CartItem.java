@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,14 +40,15 @@ public class CartItem {
 	    @ManyToOne(fetch = FetchType.LAZY)
 	    @JoinColumn(name = "cart_id")
 	    private Cart cart;
-
+        
+	    @NotNull(message = "quantity is mandatory")
 	    private int quantity;
 
 	    @Transient
 	    private double totalPrice;
 
 		public double getTotalPrice() {
-			return quantity*product.getPrice();
+			return totalPrice;
 		}
 
 		public void setTotalPrice(double totalPrice) {

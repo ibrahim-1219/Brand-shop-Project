@@ -26,6 +26,9 @@ public class CartItemService {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private InventoryService inventoryService;
 
 	public List<CartItem> findAll() {
 	
@@ -61,14 +64,27 @@ public class CartItemService {
 	}
 
 	public CartItem addCartItem(long cartId, long productId, int quantity) {
+		
+		
 		Cart cartToAdd = cartService.findById(cartId);
 		Product productToAdd= productService.findById(productId);
+		int inventoryQuantity = inventoryService.getQuantity(productId);
+		if(inventoryQuantity!=0)
+		{
+			inventoryQuantity=inventoryQuantity-quantity;
+			inventoryService.updateInventory(productId,inventoryQuantity);
+		}
+		else {
+			throw new CustomException("Product currently unavailable. Apologies for the inconvenience");
+		}
 		
 		CartItem cartItem=new CartItem();
 		cartItem.setCart(cartToAdd);
 		cartItem.setProduct(productToAdd);
 		cartItem.setQuantity(quantity);
 		cartItem.setTotalPrice(quantity);
+		
+		System.out.println("********************************  "+cartItem.getTotalPrice());
 		
 		return cartItemRepo.save(cartItem);
 	}

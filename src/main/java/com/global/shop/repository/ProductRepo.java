@@ -21,8 +21,8 @@ public interface ProductRepo extends JpaRepository<Product, Long>{
 	@Query(value ="SELECT * FROM products" ,nativeQuery = true )
 	Page<Product> findAllProducts(Pageable pageable);
 
-	@Query(value="SELECT * FROM `products` WHERE name=:name and description=:description",nativeQuery = true)
-	Product findByNameAndDescription(String name,String description);
+	@Query(value="SELECT * FROM `products` WHERE name=:name and description=:description and price=:price",nativeQuery = true)
+	Product findByNameAndDescription(String name,double price ,String description);
 
 	Optional <Product> findByName(String name);
 	

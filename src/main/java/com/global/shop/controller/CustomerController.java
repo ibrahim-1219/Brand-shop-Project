@@ -1,9 +1,12 @@
 package com.global.shop.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,21 +22,22 @@ import com.global.shop.service.CustomerService;
 
 @Controller
 @RequestMapping("/customers")
+@Validated
 public class CustomerController {
 	
 	@Autowired
 	private CustomerService customerService;
 	
 	@PostMapping("/create")
-	public ResponseEntity<?> createCustomer(@RequestBody Customer customer) {
+	public ResponseEntity<?> createCustomer(@RequestBody @Valid Customer customer) {
 		
 		return ResponseEntity.ok(new CustomResponse(customerService.insert(customer)));
 	}
 	 
 	@PostMapping("/update")
-	public ResponseEntity<?> update(@RequestBody Customer customer) {
+	public ResponseEntity<?> updateEmail(@RequestParam long id , @RequestParam String email) {
 		
-		return ResponseEntity.ok(new CustomResponse(customerService.updateEmail(customer)));
+		return ResponseEntity.ok(new CustomResponse(customerService.updateEmail(id,email)));
 	}
 	
 	@GetMapping("/{id}")

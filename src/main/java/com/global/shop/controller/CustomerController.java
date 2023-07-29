@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +35,7 @@ public class CustomerController {
 		return ResponseEntity.ok(new CustomResponse(customerService.insert(customer)));
 	}
 	 
-	@PostMapping("/update")
+	@PutMapping("/update")
 	public ResponseEntity<?> updateEmail(@RequestParam long id , @RequestParam String email) {
 		
 		return ResponseEntity.ok(new CustomResponse(customerService.updateEmail(id,email)));

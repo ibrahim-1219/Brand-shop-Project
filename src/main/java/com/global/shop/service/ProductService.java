@@ -54,6 +54,7 @@ public class ProductService {
 		Product productToUpdate = productRepo.findById(product.getId()).orElseThrow(()-> new CustomException("product not found"));
 	    productToUpdate.setName(product.getName());
 	    productToUpdate.setPrice(product.getPrice());
+	    productToUpdate.setQuantity(product.getQuantity());
 	    productToUpdate.setDescription(product.getDescription());
 	    Product newProduct = productRepo.save(productToUpdate);
 		return newProduct;

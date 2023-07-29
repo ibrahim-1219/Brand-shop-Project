@@ -19,6 +19,9 @@ public class CartService {
 	
 	@Autowired
 	private CartRepo cartRepo;
+	
+	@Autowired
+	private ProductService productService;
 
 	public List<Cart> findAll() {
 	
@@ -58,6 +61,34 @@ public class CartService {
 		Cart cart = cartRepo.findById(id).orElseThrow(()-> new CustomException("This Cart is not found"));
 
 		return cartRepo.deleteById(id);
+	}
+
+	
+	public int addProductToCart(long cartId,String productName) {
+		
+		Cart cart = cartRepo.findById(cartId).orElseThrow(()-> new CustomException("This Cart is not found"));
+		Product product = productService.findByName(productName);
+		int quantity = product.getQuantity();
+		
+		if(quantity > 0) {
+		product.setQuantity(--quantity);
+		return cartRepo.addProductToCart(cartId,product.getId());
+		}
+		else {
+			throw new CustomException("Product currently unavailable. Apologies for the inconvenience");
+		}
+	}
+
+	public int deleteProductFromCart(long cartId, String productName) {
+
+		Cart cart = cartRepo.findById(cartId).orElseThrow(()-> new CustomException("This Cart is not found"));
+		Product product = productService.findByName(productName);
+		int quantity = cartRepo.countProductItemsInCart(cartId, product.getId());
+		cartRepo.deleteProductFromCart(cartId,product.getId());
+		product.setQuantity(product.getQuantity() + quantity);
+		productService.updateProduct(product);
+		System.out.println("********************************* "+product.getQuantity());
+		return 1;
 	}
 	
 

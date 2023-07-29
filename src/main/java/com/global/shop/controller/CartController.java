@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,5 +52,24 @@ public class CartController {
 		return ResponseEntity.ok(new CustomResponse(cartService.deleteCart(id)));
 	}
 	
+	@PutMapping("/add")
+	public  ResponseEntity<?> addProductToCart(@RequestParam long cartId,@RequestParam String productName){
+		if(cartService.addProductToCart(cartId, productName)!=0)
+		{
+		return ResponseEntity.ok(new CustomResponse("added"));
+		}
+		return null;
+
+	}
+	@DeleteMapping("/delete-product")
+	public  ResponseEntity<?> deleteProductFromCart(@RequestParam long cartId,@RequestParam String productName){
+		
+	    if(cartService.deleteProductFromCart(cartId, productName)!=0)
+	    {
+		return ResponseEntity.ok(new CustomResponse("deleted"));
+	    }else {
+	    	return ResponseEntity.ok(new CustomResponse("Not Found"));
+	    }
+	}
 
 }

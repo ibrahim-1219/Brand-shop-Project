@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -42,6 +43,9 @@ public class Product {
 	
 	@NotNull(message = "name is mandatory")
 	private String name;
+	
+	@NotNull(message = "quantity is mandatory")
+	private int quantity;
 	
 	@NotNull(message = "price is mandatory")
 	private Double price;

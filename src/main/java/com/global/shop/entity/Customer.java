@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -11,6 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.OrderColumn;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -76,10 +78,12 @@ public class Customer {
 	private LocalDateTime lastModifiedDate;
 
 	
-	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
-	@JoinTable(name = "customer_roles" ,
-	    joinColumns = @JoinColumn(name = "customer_id"),
-	    inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.REMOVE})
+	@JoinTable(name = "customer_roles",
+    joinColumns = @JoinColumn(name = "customer_id"),
+    inverseJoinColumns = @JoinColumn(name = "role_id"),
+    foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT),
+    inverseForeignKey =@ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
 	@OrderColumn(name = "id")
 	private Set<Role> roles = new HashSet<>();
 	

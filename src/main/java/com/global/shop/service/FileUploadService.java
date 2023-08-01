@@ -9,9 +9,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.global.shop.entity.Customer;
 import com.global.shop.error.FileStorageException;
 
 import lombok.RequiredArgsConstructor;
@@ -25,7 +29,10 @@ public class FileUploadService {
 	private Path fileStorageLocation;
 
 //	@Value("${file.upload.base-path}")
-	private final String basePath = "D:\\Global\\book\\";
+	private final String basePath = "F:\\Global\\brand\\";
+	
+	@Autowired
+	private CustomerService customerService;
 
 
 	public String storeFile(File file, Long id, String pathType) throws FileStorageException {
@@ -53,12 +60,30 @@ public class FileUploadService {
 			InputStream targetStream = new FileInputStream(file);
 			Files.copy(targetStream, targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-			
+			updateImagePath(id, pathType, pathType + "/" + fileName);
 
 			return fileName;
 		} catch (IOException ex) {
 			throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
 		}
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @param pathType
+	 * @param imagePath
+	 */
+	private void updateImagePath(Long id, String pathType, String imagePath) {
+
+		if (pathType.contains("customers")) {
+			// update author image path
+			Customer customer = customerService.findById(id);
+			customer.setImagePath(imagePath);
+			customerService.updateImagePath(customer);
+
+		}
+
 	}
 
 

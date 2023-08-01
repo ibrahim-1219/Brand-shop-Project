@@ -62,6 +62,8 @@ public class Customer {
 	@NotNull(message ="password is mandatory")
 	private String password;
 	
+	private String imagePath;
+	
 	@Column(name = "active")
 	@NotNull
 	@Value("1")

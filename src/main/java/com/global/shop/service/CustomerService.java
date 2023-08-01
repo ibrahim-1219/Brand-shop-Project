@@ -173,6 +173,14 @@ public class CustomerService implements UserDetailsService{
 		
 		return (int) customerRepo.count();
 	}
+	public Customer updateImagePath(Customer customer) {
+
+		Customer customerToUpdate = customerRepo.findById(customer.getId()).orElseThrow(() -> new CustomException("Customer is not found"));
+	    customerToUpdate.setImagePath(customer.getImagePath());
+	   
+	    return customerRepo.save(customerToUpdate);
+	    }
+	
 	
 
 

@@ -16,6 +16,8 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
+		<aws-java-sdk.version>1.11.750</aws-java-sdk.version>
+		<google-cloud-storage>2.3.0</google-cloud-storage>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -111,6 +113,21 @@
     <artifactId>flyway-mysql</artifactId>
 </dependency>
 
+<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3 -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>${aws-java-sdk.version}</version>
+		</dependency>
+	
+		<!-- https://mvnrepository.com/artifact/com.google.cloud/google-cloud-storage -->
+		<dependency>
+		    <groupId>com.google.cloud</groupId>
+		    <artifactId>google-cloud-storage</artifactId>
+		    <version>${google-cloud-storage}</version>
+		</dependency>
+
+
 		
 	</dependencies>
 
@@ -120,6 +137,18 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
+			<plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>appengine-maven-plugin</artifactId>
+                <version>${google-cloud-storage}</version>
+                <configuration>
+                    <version>1</version>
+                    <projectId>GCLOUD_CONFIG</projectId>
+                </configuration>
+            </plugin>
+
+			
 		</plugins>
 	</build>
 

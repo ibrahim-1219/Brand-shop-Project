@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.global.shop.error.FileStorageException;
 import com.global.shop.service.FileUploadService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -22,7 +23,7 @@ public class FileUploadController {
 	
 	private final FileUploadService fileUploadService;
 	
-	
+	@Operation(summary = "upload any file ")
 	@PostMapping("/upload")
 	public ResponseEntity<Object> uploadFile (@RequestParam Long id,@RequestParam String pathType
 			,@RequestParam MultipartFile file) throws FileStorageException{

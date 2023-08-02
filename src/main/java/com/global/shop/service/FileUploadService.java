@@ -1,4 +1,4 @@
- package com.global.shop.service;
+package com.global.shop.service;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,6 +35,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.util.IOUtils;
+
 @Service
 @RequiredArgsConstructor
 @Log4j2
@@ -44,10 +45,10 @@ public class FileUploadService {
 
 //	@Value("${file.upload.base-path}")
 	private final String basePath = "F:\\Global\\brand\\";
-	
+
 	@Autowired
 	private CustomerService customerService;
-	
+
 //	@Value("${google.storage.bucket-name}")
 	private String googleBucketName = "";
 
@@ -62,9 +63,7 @@ public class FileUploadService {
 //	@Value("${aws.s3.bucket}")
 	private String awsBucketName;
 
-	@Autowired
-	private final AmazonS3 amazonS3;
-
+//	private final AmazonS3 amazonS3;
 
 	public String storeFile(File file, Long id, String pathType) throws FileStorageException {
 
@@ -98,7 +97,7 @@ public class FileUploadService {
 			throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param id
@@ -117,9 +116,6 @@ public class FileUploadService {
 
 	}
 
-
-
-
 	/**
 	 * 
 	 * @param multipartFile
@@ -134,66 +130,65 @@ public class FileUploadService {
 		}
 		return file;
 	}
-	
-	public String cloudUploadFile(MultipartFile file, Long id, String pathType) throws FileStorageException{
 
-		String fileName = null;
-
-		if (file.getContentType().contains("image")) {
-			fileName = id + "_" + UUID.randomUUID() + ".jpg";
-		} else {
-			fileName = id + file.getOriginalFilename();
-		}
-		String uniqueFileName = pathType + fileName;
-		try {
-
-			awsUploadObject(uniqueFileName, file);
-
-			updateImagePath(id, pathType, pathType + "/" + fileName);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new FileStorageException("Error converting the multi-part file to file= ", e);
-		}
-
-		return fileName;
-	}
+//	public String cloudUploadFile(MultipartFile file, Long id, String pathType) throws FileStorageException {
+//
+//		String fileName = null;
+//
+//		if (file.getContentType().contains("image")) {
+//			fileName = id + "_" + UUID.randomUUID() + ".jpg";
+//		} else {
+//			fileName = id + file.getOriginalFilename();
+//		}
+//		String uniqueFileName = pathType + fileName;
+//		try {
+//
+//			awsUploadObject(uniqueFileName, file);
+//
+//			updateImagePath(id, pathType, pathType + "/" + fileName);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			throw new FileStorageException("Error converting the multi-part file to file= ", e);
+//		}
+//
+//		return fileName;
+//	}
 
 	/**
 	 * 
 	 * @param uniqueFileName
 	 * @param multipartFile
 	 */
-	public void awsUploadObject(final String uniqueFileName, final MultipartFile multipartFile) {
-
-		log.info("Uploading file with name= " + uniqueFileName);
-
-		try {
-
-			ObjectMetadata meta = new ObjectMetadata();
-			meta.setContentLength(IOUtils.toByteArray(multipartFile.getInputStream()).length);
-
-			final PutObjectRequest putObjectRequest = new PutObjectRequest(awsBucketName, uniqueFileName,
-					multipartFile.getInputStream(), meta).withCannedAcl(CannedAccessControlList.PublicRead);
-
-			PutObjectResult result = amazonS3.putObject(putObjectRequest);
-			log.info("File uploaded successfully result" + result.toString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	public void awsUploadObject(final String uniqueFileName, final MultipartFile multipartFile) {
+//
+//		log.info("Uploading file with name= " + uniqueFileName);
+//
+//		try {
+//
+//			ObjectMetadata meta = new ObjectMetadata();
+//			meta.setContentLength(IOUtils.toByteArray(multipartFile.getInputStream()).length);
+//
+//			final PutObjectRequest putObjectRequest = new PutObjectRequest(awsBucketName, uniqueFileName,
+//					multipartFile.getInputStream(), meta).withCannedAcl(CannedAccessControlList.PublicRead);
+//
+//			PutObjectResult result = amazonS3.putObject(putObjectRequest);
+//			log.info("File uploaded successfully result" + result.toString());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 
 	/**
 	 * 
 	 * @param fileUrl
 	 */
-	public void awsDeleteObject(String fileUrl) {
-		final DeleteObjectRequest req = new DeleteObjectRequest(awsBucketName, fileUrl);
-		amazonS3.deleteObject(req);
-		log.info("File deleted from bucket " + awsBucketName + " as " + fileUrl);
-	}
-	
-	
+//	public void awsDeleteObject(String fileUrl) {
+//		final DeleteObjectRequest req = new DeleteObjectRequest(awsBucketName, fileUrl);
+//		amazonS3.deleteObject(req);
+//		log.info("File deleted from bucket " + awsBucketName + " as " + fileUrl);
+//	}
+
 	public void googelUploadObject(String projectId, String objectName, MultipartFile file) throws IOException {
 		// The ID of your GCP project
 		// String projectId = "your-project-id";
@@ -247,9 +242,4 @@ public class FileUploadService {
 
 	}
 
-	
-	
-	
-	
-
-	}
+}

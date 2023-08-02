@@ -21,11 +21,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.global.shop.entity.Customer;
 import com.global.shop.service.CustomerService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import com.global.shop.error.CustomException;
 import com.global.shop.error.CustomResponse;
 import com.global.shop.security.JWTResponse;
 import com.global.shop.security.TokenUtiles;
 
+@Tag(name = "Authentication-controller")
 @RestController
 @RequestMapping("/api/v1")
 public class AuthController {
@@ -41,6 +46,7 @@ public class AuthController {
 	@Autowired
 	private TokenUtiles tokenUtiles;
 
+	@Operation(summary = "login to the application")
 	@PostMapping("/login")
 	public Object login (@RequestBody Map<String, Object> body) {
 		
@@ -77,7 +83,7 @@ public class AuthController {
 	}
 
 	
-	
+	@Operation(summary = "signin the application")
 	@PostMapping("/signup")
 	public Object signup(@RequestBody Customer user) {
 	 

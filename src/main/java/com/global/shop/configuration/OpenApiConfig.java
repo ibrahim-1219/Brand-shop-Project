@@ -27,7 +27,7 @@ public class OpenApiConfig {
                                  @Value("${application-version}")  String appVersion) {
 		return new OpenAPI()
 				.info(new Info()
-						.title("sample application API")
+						.title("Brand-Shop application REST API")
 				.version(appVersion)
 				.contact(getContact())
 				.description(appDesciption)
@@ -49,9 +49,9 @@ public class OpenApiConfig {
 	
 	 private Contact getContact() {
         Contact contact = new Contact();
-        contact.setEmail("info@gmail.com");
-        contact.setName("book Service");
-        contact.setUrl("https://www.book.com");
+        contact.setEmail("ibrahimaboalyazeed55@gmail.com");
+        contact.setName("Brand-Shop Service");
+        contact.setUrl("https://www.brandshop.com");
         contact.setExtensions(Collections.emptyMap());
         return contact;
     }

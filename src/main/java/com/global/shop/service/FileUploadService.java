@@ -44,26 +44,26 @@ public class FileUploadService {
 	private Path fileStorageLocation;
 
 //	@Value("${file.upload.base-path}")
-	private final String basePath = "F:\\Global\\brand\\";
+	private final String basePath = "D:\\Global\\brand\\";
 
 	@Autowired
 	private CustomerService customerService;
 
-//	@Value("${google.storage.bucket-name}")
-	private String googleBucketName = "";
-
-//	@Value("${google.storage.project-id}")
-	private String projectId = "";
-
-//	@Value("${google.storage.credentials.path}")
-	private String credentialPath = "";
-
-//	endpointUrl: https://s3.us-east-2.amazonaws.com
-
-//	@Value("${aws.s3.bucket}")
-	private String awsBucketName;
-
-//	private final AmazonS3 amazonS3;
+////	@Value("${google.storage.bucket-name}")
+//	private String googleBucketName = "";
+//
+////	@Value("${google.storage.project-id}")
+//	private String projectId = "";
+//
+////	@Value("${google.storage.credentials.path}")
+//	private String credentialPath = "";
+//
+////	endpointUrl: https://s3.us-east-2.amazonaws.com
+//
+////	@Value("${aws.s3.bucket}")
+//	private String awsBucketName;
+//
+////	private final AmazonS3 amazonS3;
 
 	public String storeFile(File file, Long id, String pathType) throws FileStorageException {
 
@@ -189,57 +189,57 @@ public class FileUploadService {
 //		log.info("File deleted from bucket " + awsBucketName + " as " + fileUrl);
 //	}
 
-	public void googelUploadObject(String projectId, String objectName, MultipartFile file) throws IOException {
-		// The ID of your GCP project
-		// String projectId = "your-project-id";
-
-		// The ID of your GCS bucket
-		// String bucketName = "your-unique-bucket-name";
-
-		// The ID of your GCS object
-		// String objectName = "your-object-name";
-
-		// The path to your file to upload
-		// String filePath = "path/to/your/file"
-		InputStream inputStream = getClass().getResourceAsStream(this.credentialPath);
-		Credentials credentials = GoogleCredentials.fromStream(inputStream);
-
-		Storage storage = StorageOptions.newBuilder().setCredentials(credentials).setProjectId(projectId).build()
-				.getService();
-		BlobId blobId = BlobId.of(googleBucketName, objectName);
-		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(file.getContentType()).build();
-
-//			    storage.create(blobInfo,Files.readAllBytes(Paths.get(filePath)));
-
-		storage.create(blobInfo, file.getInputStream());
-//			    storage.createAcl(blobId, Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER));
-
-		log.info("File uploaded to bucket " + googleBucketName + " as " + objectName);
-
-	}
-
-	public void googleDeleteObject(String imagePath) throws IOException {
-		// The ID of your GCP project
-		// String projectId = "your-project-id";
-
-		// The ID of your GCS bucket
-		// String bucketName = "your-unique-bucket-name";
-
-		// The ID of your GCS object
-		// String objectName = "your-object-name";
-
-		// The path to your file to upload
-		// String filePath = "path/to/your/file"
-		InputStream inputStream = getClass().getResourceAsStream(this.credentialPath);
-		Credentials credentials = GoogleCredentials.fromStream(inputStream);
-
-		Storage storage = StorageOptions.newBuilder().setCredentials(credentials).setProjectId(projectId).build()
-				.getService();
-		BlobId blobId = BlobId.of(googleBucketName, imagePath);
-		storage.delete(blobId);
-
-		log.info("File deleted from bucket " + googleBucketName + " as " + imagePath);
-
-	}
+//	public void googelUploadObject(String projectId, String objectName, MultipartFile file) throws IOException {
+//		// The ID of your GCP project
+//		// String projectId = "your-project-id";
+//
+//		// The ID of your GCS bucket
+//		// String bucketName = "your-unique-bucket-name";
+//
+//		// The ID of your GCS object
+//		// String objectName = "your-object-name";
+//
+//		// The path to your file to upload
+//		// String filePath = "path/to/your/file"
+//		InputStream inputStream = getClass().getResourceAsStream(this.credentialPath);
+//		Credentials credentials = GoogleCredentials.fromStream(inputStream);
+//
+//		Storage storage = StorageOptions.newBuilder().setCredentials(credentials).setProjectId(projectId).build()
+//				.getService();
+//		BlobId blobId = BlobId.of(googleBucketName, objectName);
+//		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(file.getContentType()).build();
+//
+////			    storage.create(blobInfo,Files.readAllBytes(Paths.get(filePath)));
+//
+//		storage.create(blobInfo, file.getInputStream());
+////			    storage.createAcl(blobId, Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER));
+//
+//		log.info("File uploaded to bucket " + googleBucketName + " as " + objectName);
+//
+//	}
+//
+//	public void googleDeleteObject(String imagePath) throws IOException {
+//		// The ID of your GCP project
+//		// String projectId = "your-project-id";
+//
+//		// The ID of your GCS bucket
+//		// String bucketName = "your-unique-bucket-name";
+//
+//		// The ID of your GCS object
+//		// String objectName = "your-object-name";
+//
+//		// The path to your file to upload
+//		// String filePath = "path/to/your/file"
+//		InputStream inputStream = getClass().getResourceAsStream(this.credentialPath);
+//		Credentials credentials = GoogleCredentials.fromStream(inputStream);
+//
+//		Storage storage = StorageOptions.newBuilder().setCredentials(credentials).setProjectId(projectId).build()
+//				.getService();
+//		BlobId blobId = BlobId.of(googleBucketName, imagePath);
+//		storage.delete(blobId);
+//
+//		log.info("File deleted from bucket " + googleBucketName + " as " + imagePath);
+//
+//	}
 
 }

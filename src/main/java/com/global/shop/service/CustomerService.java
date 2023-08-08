@@ -34,23 +34,25 @@ import com.global.shop.projection.ProductDto;
 import com.global.shop.repository.CustomerRepo;
 import com.global.shop.security.AppUserDetail;
 
+import lombok.RequiredArgsConstructor;
 import net.bytebuddy.implementation.attribute.AnnotationAppender.Target.OnType;
 
 
 @Service
+@RequiredArgsConstructor
 public class CustomerService implements UserDetailsService{
 	
-	@Autowired
-	private CustomerRepo customerRepo;
 	
-	@Autowired
-	private RoleService roleService;
+	private final CustomerRepo customerRepo;
 	
-	@Autowired
-	private CartService cartService ;
+	
+	private  final RoleService roleService;
+	
+	
+	private final CartService cartService ;
 		
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	
+	private final PasswordEncoder passwordEncoder;
 
 	public Customer findById(long id) {
 		

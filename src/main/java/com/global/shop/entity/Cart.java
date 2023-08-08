@@ -35,7 +35,6 @@ import lombok.ToString;
 @Table(name = "carts")
 @Setter
 @Getter 
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)

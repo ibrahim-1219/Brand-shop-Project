@@ -9,16 +9,14 @@
 		<version>2.7.12</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.global.shop</groupId>
-	<artifactId>demo-project-demo</artifactId>
+	<groupId>com.global.medical</groupId>
+	<artifactId>demo-project</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>demoldkslld</name>
+	<name>MedicalCenter</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
-		<aws-java-sdk.version>1.11.750</aws-java-sdk.version>
-		<google-cloud-storage>2.3.0</google-cloud-storage>
 		<springdoc.version>1.6.4</springdoc.version>
 		<mapstruct.version>1.4.2.Final</mapstruct.version>
         <lombok.version>1.18.22</lombok.version>
@@ -44,15 +42,7 @@
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-jasper</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -94,39 +84,6 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.googlecode.json-simple</groupId>
-			<artifactId>json-simple</artifactId>
-			<version>1.1.1</version>
-		</dependency>
-
-
-		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-mysql -->
-		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-mysql</artifactId>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3 -->
-		<dependency>
-			<groupId>com.amazonaws</groupId>
-			<artifactId>aws-java-sdk-s3</artifactId>
-			<version>${aws-java-sdk.version}</version>
-		</dependency>
-
-		<!--
-		https://mvnrepository.com/artifact/com.google.cloud/google-cloud-storage -->
-		<dependency>
-			<groupId>com.google.cloud</groupId>
-			<artifactId>google-cloud-storage</artifactId>
-			<version>${google-cloud-storage}</version>
 		</dependency>
 
 		<dependency>
@@ -191,18 +148,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-
-			<plugin>
-				<groupId>com.google.cloud.tools</groupId>
-				<artifactId>appengine-maven-plugin</artifactId>
-				<version>${google-cloud-storage}</version>
-				<configuration>
-					<version>1</version>
-					<projectId>GCLOUD_CONFIG</projectId>
-				</configuration>
-			</plugin>
-			
-			
+				
 			 <!-- annotation processors -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

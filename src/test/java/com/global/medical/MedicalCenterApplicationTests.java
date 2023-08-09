@@ -1,10 +1,10 @@
-package com.global.shop;
+package com.global.medical;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoldkslldApplicationTests {
+class MedicalCenterApplicationTests {
 
 	@Test
 	void contextLoads() {

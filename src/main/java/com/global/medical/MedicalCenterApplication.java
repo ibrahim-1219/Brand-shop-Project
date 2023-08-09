@@ -1,13 +1,13 @@
-package com.global.shop;
+package com.global.medical;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoldkslldApplication {
+public class MedicalCenterApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoldkslldApplication.class, args);
+		SpringApplication.run(MedicalCenterApplication.class, args);
 	}
 
 }
